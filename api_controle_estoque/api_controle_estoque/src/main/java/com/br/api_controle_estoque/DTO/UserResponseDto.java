@@ -11,14 +11,12 @@ public class UserResponseDto {
     private String name;
     private String email;
     private String profile;
-    private List<String> productNames;
 
-    public UserResponseDto(Long id, String name, String email, String profile, List<String> productNames) {
+    public UserResponseDto(Long id, String name, String email, String profile) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.profile = profile;
-        this.productNames = productNames;
     }
 
     public UserResponseDto(User user) {
@@ -26,9 +24,6 @@ public class UserResponseDto {
         this.name = user.getName();
         this.email = user.getEmail();
         this.profile = user.getProfile();
-        this.productNames = user.getProducts().stream()
-                .map(Product::getName)
-                .collect(Collectors.toList());
     }
 
     public static UserResponseDto fromEntity(User user) {
@@ -36,12 +31,7 @@ public class UserResponseDto {
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
-                user.getProfile(),
-                user.getProducts() != null
-                        ? user.getProducts().stream()
-                        .map(Product::getName)
-                        .collect(Collectors.toList())
-                        : null
+                user.getProfile()
         );
     }
 
@@ -75,13 +65,5 @@ public class UserResponseDto {
 
     public void setProfile(String profile) {
         this.profile = profile;
-    }
-
-    public List<String> getProductNames() {
-        return productNames;
-    }
-
-    public void setProductNames(List<String> productNames) {
-        this.productNames = productNames;
     }
 }

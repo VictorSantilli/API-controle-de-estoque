@@ -12,23 +12,21 @@ public class ProductResponseDto {
     private String description;
     private BigDecimal price;
     private Integer quantity;
-    private LocalDateTime lastStockUpdate;
     private String nameCategory;
     private String namSupplier;
-    private String nameUser;
+
 
 
     public ProductResponseDto(Long id, String name, String description, BigDecimal price, Integer quantity,
-                              LocalDateTime lastStockUpdate, String nameCategory, String namSupplier, String nameUser) {
+                              String nameCategory, String namSupplier) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.lastStockUpdate = lastStockUpdate;
         this.nameCategory = nameCategory;
         this.namSupplier = namSupplier;
-        this.nameUser = nameUser;
+
     }
 
     public ProductResponseDto() {
@@ -41,10 +39,8 @@ public class ProductResponseDto {
                 product.getDescription(),
                 product.getPrice(),
                 product.getQuantity(),
-                product.getLastStockUpdate(),
                 product.getCategory() != null ? product.getCategory().getName() : null, // Nome da Categoria
-                product.getSupplier() != null ? product.getSupplier().getName() : null, // Nome do Fornecedor
-                product.getUser() != null ? product.getUser().getName() : null          // Nome do Usuário
+                product.getSupplier() != null ? product.getSupplier().getName() : null // Nome do Fornecedor
         );
 
     }
@@ -89,13 +85,6 @@ public class ProductResponseDto {
         this.quantity = quantity;
     }
 
-    public LocalDateTime getLastStockUpdate() {
-        return lastStockUpdate;
-    }
-
-    public void setLastStockUpdate(LocalDateTime lastStockUpdate) {
-        this.lastStockUpdate = lastStockUpdate;
-    }
 
     public String getNameCategory() {
         return nameCategory;
@@ -111,13 +100,5 @@ public class ProductResponseDto {
 
     public void setNamSupplier(String namSupplier) {
         this.namSupplier = namSupplier;
-    }
-
-    public String getNameUser() {
-        return nameUser;
-    }
-
-    public void setNameUser(String nameUser) {
-        this.nameUser = nameUser;
     }
 }

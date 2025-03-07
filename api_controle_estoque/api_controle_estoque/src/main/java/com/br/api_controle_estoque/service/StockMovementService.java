@@ -34,29 +34,7 @@ public class StockMovementService {
         return stockMovementRepository.findAll();
     }
 
-    public StockMovement createStockMovement(StockMovementRequestDto requestDto) {
 
-        Product product = productRepository.findById(requestDto.productId())
-                .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
-
-        User user = userRepository.findById(requestDto.userId())
-                .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
-
-        // Criar a movimentação de estoque
-        StockMovement stockMovement = new StockMovement();
-        stockMovement.setProduct(product);
-        stockMovement.setMovementType(requestDto.movementType());
-        stockMovement.setMovement_date(LocalDateTime.now());
-        stockMovement.setQuantity(requestDto.quantity());
-        stockMovement.setObservation(requestDto.observation());
-        stockMovement.setUser(user);
-
-        // Lógica para atualizar na tabela de produtos
-        updateProductStock(product, stockMovement);
-        productRepository.save(product);
-
-        return stockMovementRepository.save(stockMovement);
-    }
 
     // Método para excluir o que a movimentação tinha retirado ou colocado no estoque
     private void revertStockMovement(Product product, StockMovement stockMovement){
@@ -78,7 +56,27 @@ public class StockMovementService {
             }
             product.setQuantity(product.getQuantity() - stockMovement.getQuantity());
         }
-        product.setLastStockUpdate(stockMovement.getMovement_date());
+    }
+
+    public StockMovement createStockMovement(StockMovementRequestDto requestDto) {
+
+        Product product = productRepository.findById(requestDto.productId())
+                .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
+
+
+        // Criar a movimentação de estoque
+        StockMovement stockMovement = new StockMovement();
+        stockMovement.setProduct(product);
+        stockMovement.setMovementType(requestDto.movementType());
+        stockMovement.setMovement_date(LocalDateTime.now());
+        stockMovement.setQuantity(requestDto.quantity());
+        stockMovement.setObservation(requestDto.observation());
+
+        // Lógica para atualizar na tabela de produtos
+        updateProductStock(product, stockMovement);
+        productRepository.save(product);
+
+        return stockMovementRepository.save(stockMovement);
     }
 
     public StockMovement updateStockMovement(StockMovementRequestUpdateDto updateDto){

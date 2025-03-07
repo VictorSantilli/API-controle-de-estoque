@@ -15,9 +15,6 @@ public record StockMovementRequestDto(
         @NotNull(message = "A quantidade é obrigatória")
         Integer quantity,
 
-        String observation,
-
-        @NotNull(message = "O ID do usuário é obrigatório")
-        Long userId
+        String observation
 ) {
 }

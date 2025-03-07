@@ -24,7 +24,6 @@ public class Product {
     @NotNull(message = "The quantity is required")
     private Integer quantity;
 
-    private LocalDateTime lastStockUpdate;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -33,10 +32,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
 
     @OneToMany(mappedBy = "product")
@@ -99,13 +94,6 @@ public class Product {
         this.supplier = supplier;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public List<StockMovement> getStockMovements() {
         return stockMovements;
@@ -115,11 +103,4 @@ public class Product {
         this.stockMovements = stockMovements;
     }
 
-    public LocalDateTime getLastStockUpdate() {
-        return lastStockUpdate;
-    }
-
-    public void setLastStockUpdate(LocalDateTime lastStockUpdate) {
-        this.lastStockUpdate = lastStockUpdate;
-    }
 }
