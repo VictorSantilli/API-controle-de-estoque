@@ -13,19 +13,17 @@ public class ProductResponseDto {
     private BigDecimal price;
     private Integer quantity;
     private String nameCategory;
-    private String namSupplier;
 
 
 
     public ProductResponseDto(Long id, String name, String description, BigDecimal price, Integer quantity,
-                              String nameCategory, String namSupplier) {
+                              String nameCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.nameCategory = nameCategory;
-        this.namSupplier = namSupplier;
 
     }
 
@@ -39,8 +37,7 @@ public class ProductResponseDto {
                 product.getDescription(),
                 product.getPrice(),
                 product.getQuantity(),
-                product.getCategory() != null ? product.getCategory().getName() : null, // Nome da Categoria
-                product.getSupplier() != null ? product.getSupplier().getName() : null // Nome do Fornecedor
+                product.getCategory() != null ? product.getCategory().getName() : null // Nome da Categoria
         );
 
     }
@@ -94,11 +91,4 @@ public class ProductResponseDto {
         this.nameCategory = nameCategory;
     }
 
-    public String getNamSupplier() {
-        return namSupplier;
-    }
-
-    public void setNamSupplier(String namSupplier) {
-        this.namSupplier = namSupplier;
-    }
 }

@@ -10,29 +10,28 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "produto")
 public class Product {
 
     @Id
-    @Column(name = "product_id")
+    @Column(name = "id_produto")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty(message = "The name of the product is required.")
+    @Column(name = "nome")
     private String name;
+    @Column(name = "descricao")
     private String description;
     private BigDecimal price;
     @Positive(message = "The quantity must be a positive value")
     @NotNull(message = "The quantity is required")
     private Integer quantity;
 
+    private boolean status;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "id_categoria")
     private Category category;
-
-    @ManyToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
-
 
     @OneToMany(mappedBy = "product")
     private List<StockMovement> stockMovements;
@@ -85,15 +84,6 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
-
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
 
     public List<StockMovement> getStockMovements() {
         return stockMovements;

@@ -1,17 +1,12 @@
 package com.br.api_controle_estoque.controller;
-
 import com.br.api_controle_estoque.DTO.SupplierResponseDto;
 import com.br.api_controle_estoque.model.Supplier;
 import com.br.api_controle_estoque.service.SupplierService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +51,7 @@ public class SupplierController {
             existingSupplier.setAddress(supplier.getAddress());
             existingSupplier.setEmail(supplier.getEmail());
             existingSupplier.setPhone(supplier.getPhone());
-            existingSupplier.setProducts(supplier.getProducts());
+            existingSupplier.setMovements(supplier.getMovements());
             return ResponseEntity.ok(supplierService.saveSupplier(existingSupplier));
         }
         return ResponseEntity.notFound().build();

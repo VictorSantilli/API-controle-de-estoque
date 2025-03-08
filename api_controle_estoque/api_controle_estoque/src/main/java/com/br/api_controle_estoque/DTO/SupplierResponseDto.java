@@ -1,6 +1,7 @@
 package com.br.api_controle_estoque.DTO;
 
 import com.br.api_controle_estoque.model.Product;
+import com.br.api_controle_estoque.model.StockMovement;
 import com.br.api_controle_estoque.model.Supplier;
 
 import java.util.List;
@@ -29,9 +30,13 @@ public class SupplierResponseDto {
         this.phone = supplier.getPhone();
         this.email = supplier.getEmail();
         this.address = supplier.getAddress();
-        this.productNames = supplier.getProducts().stream()
-                .map(Product::getName)
-                .collect(Collectors.toList());
+        this.productNames = supplier.getMovements() != null ?
+                supplier.getMovements().stream()
+                        .map(StockMovement::getProduct)
+                        .map(product -> product != null ? product.getName() : null)
+                        .distinct()
+                        .collect(Collectors.toList())
+                : null;
     }
 
     public static SupplierResponseDto fromEntity(Supplier supplier) {
@@ -41,10 +46,12 @@ public class SupplierResponseDto {
                 supplier.getPhone(),
                 supplier.getEmail(),
                 supplier.getAddress(),
-                supplier.getProducts() != null
-                        ? supplier.getProducts().stream()
-                        .map(Product::getName)
-                        .collect(Collectors.toList())
+                supplier.getMovements() != null ?
+                        supplier.getMovements().stream()
+                                .map(StockMovement::getProduct)
+                                .map(product -> product != null ? product.getName() : null)
+                                .distinct()
+                                .collect(Collectors.toList())
                         : null
         );
     }

@@ -10,28 +10,24 @@ public class UserResponseDto {
     private Long id;
     private String name;
     private String email;
-    private String profile;
 
-    public UserResponseDto(Long id, String name, String email, String profile) {
+    public UserResponseDto(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.profile = profile;
     }
 
     public UserResponseDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
-        this.profile = user.getProfile();
     }
 
     public static UserResponseDto fromEntity(User user) {
         return new UserResponseDto(
                 user.getId(),
                 user.getName(),
-                user.getEmail(),
-                user.getProfile()
+                user.getEmail()
         );
     }
 
@@ -59,11 +55,4 @@ public class UserResponseDto {
         this.email = email;
     }
 
-    public String getProfile() {
-        return profile;
-    }
-
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
 }

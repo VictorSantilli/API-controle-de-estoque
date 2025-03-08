@@ -6,26 +6,21 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usuarios")
 public class User {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty(message = "The name of the user is required.")
+    @Column(name = "nome")
     private String name;
     @Column(unique = true, nullable = false)
     private String email;
+    @Column(name = "senha")
     private String password;
-    private String profile;
 
-
-    @OneToMany(mappedBy = "user")
-    private List<Product> products;
-
-    @OneToMany(mappedBy = "user")
-    private List<StockMovement> stockMovements;
 
     public Long getId() {
         return id;
@@ -59,27 +54,4 @@ public class User {
         this.password = password;
     }
 
-    public String getProfile() {
-        return profile;
-    }
-
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public List<StockMovement> getStockMovements() {
-        return stockMovements;
-    }
-
-    public void setStockMovements(List<StockMovement> stockMovements) {
-        this.stockMovements = stockMovements;
-    }
 }

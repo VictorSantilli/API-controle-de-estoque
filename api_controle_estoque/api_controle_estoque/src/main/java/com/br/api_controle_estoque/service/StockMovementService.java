@@ -53,8 +53,10 @@ public class StockMovementService {
         } else if (stockMovement.getMovementType() == MovementType.SAIDA) {
             if (product.getQuantity() < stockMovement.getQuantity()) {
                 throw new RuntimeException("Quantidade insuficiente em estoque");
+            } else {
+                product.setQuantity(product.getQuantity() - stockMovement.getQuantity());
             }
-            product.setQuantity(product.getQuantity() - stockMovement.getQuantity());
+
         }
     }
 
@@ -64,7 +66,10 @@ public class StockMovementService {
                 .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
 
 
-        // Criar a movimentação de estoque
+        if (requestDto.movementType() == MovementType.SAIDA && product.getQuantity() < requestDto.quantity()) {
+            throw new RuntimeException("Quantidade insuficiente em estoque para essa saída");
+        }
+
         StockMovement stockMovement = new StockMovement();
         stockMovement.setProduct(product);
         stockMovement.setMovementType(requestDto.movementType());
@@ -86,11 +91,9 @@ public class StockMovementService {
 
         Product product = existingMovement.getProduct();
 
-        if (existingMovement.getMovementType() == MovementType.ENTRADA){
-            product.setQuantity(product.getQuantity() - existingMovement.getQuantity());
-        } else if (existingMovement.getMovementType() == MovementType.SAIDA) {
-            product.setQuantity(product.getQuantity() + existingMovement.getQuantity());
-        }
+        revertStockMovement(product, existingMovement);
+        productRepository.save(product);
+
 
         existingMovement.setQuantity(updateDto.newQuantity());
         existingMovement.setMovementType(updateDto.newMovementType());
@@ -98,8 +101,8 @@ public class StockMovementService {
         existingMovement.setMovement_date(LocalDateTime.now());
 
         updateProductStock(product, existingMovement);
-
         productRepository.save(product);
+
         return stockMovementRepository.save(existingMovement);
 
     }

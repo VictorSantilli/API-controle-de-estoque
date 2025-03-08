@@ -1,19 +1,19 @@
 package com.br.api_controle_estoque.model;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-
 import java.util.List;
 
 @Entity
+@Table(name = "fornecedor")
 public class Supplier {
 
     @Id
-    @Column(name = "supplier_id")
+    @Column(name = "id_fornecedor")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "The name of the supplier is required.")
+    @Column(name = "nome")
     private String name;
 
     @Column(unique = true, nullable = false)
@@ -23,7 +23,7 @@ public class Supplier {
     private String address;
 
     @OneToMany(mappedBy = "supplier")
-    private List<Product> products;
+    private List<StockMovement> movements;
 
 
     public Long getId() {
@@ -66,11 +66,11 @@ public class Supplier {
         this.address = address;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<StockMovement> getMovements() {
+        return movements;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setMovements(List<StockMovement> movements) {
+        this.movements = movements;
     }
 }

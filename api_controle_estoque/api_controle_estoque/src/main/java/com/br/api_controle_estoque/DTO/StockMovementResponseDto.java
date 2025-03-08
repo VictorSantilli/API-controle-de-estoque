@@ -9,17 +9,19 @@ public class StockMovementResponseDto {
     private Integer quantity;
     private String movementDate;
     private String observation;
+    private String supplierName;
 
 
     public StockMovementResponseDto(Long id, String productName, String movementType,
                                     Integer quantity, String movementDate,
-                                    String observation) {
+                                    String observation, String supplierName) {
         this.id = id;
         this.productName = productName;
         this.movementType = movementType;
         this.quantity = quantity;
         this.movementDate = movementDate;
         this.observation = observation;
+        this.supplierName = supplierName;
 
     }
 
@@ -30,6 +32,8 @@ public class StockMovementResponseDto {
         this.quantity = stockMovement.getQuantity();
         this.movementDate = stockMovement.getMovement_date() != null ? stockMovement.getMovement_date().toString() : null;
         this.observation = stockMovement.getObservation();
+        this.supplierName = stockMovement.getSupplier() != null ? stockMovement.getSupplier().getName() : null;
+
     }
     public static StockMovementResponseDto fromEntity(StockMovement stockMovement) {
         return new StockMovementResponseDto(
@@ -38,7 +42,8 @@ public class StockMovementResponseDto {
                 stockMovement.getMovementType() != null ? stockMovement.getMovementType().name() : null,
                 stockMovement.getQuantity(),
                 stockMovement.getMovement_date() != null ? stockMovement.getMovement_date().toString() : null,
-                stockMovement.getObservation()
+                stockMovement.getObservation(),
+                stockMovement.getSupplier() != null ? stockMovement.getSupplier().getName() : null
         );
     }
 
@@ -90,4 +95,11 @@ public class StockMovementResponseDto {
         this.observation = observation;
     }
 
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
 }

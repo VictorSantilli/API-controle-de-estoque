@@ -6,19 +6,22 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
+@Table(name = "categoria")
 public class Category {
 
     @Id
-    @Column(name = "category_id")
+    @Column(name = "id_categoria")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "The name of the category is required!")
+    @Column(name = "nome")
     private String name;
     @NotEmpty(message = "The description of the category is required!")
+    @Column(name = "descricao")
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category")
     private List<Product> products;
 
     public Long getId() {

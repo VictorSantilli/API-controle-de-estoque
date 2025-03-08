@@ -53,7 +53,6 @@ public class ProductController {
             existingProduct.setPrice(product.getPrice());
             existingProduct.setQuantity(product.getQuantity());
             existingProduct.setDescription(product.getDescription());
-            existingProduct.setSupplier(product.getSupplier());
             existingProduct.setCategory(product.getCategory());
             existingProduct.setStockMovements(product.getStockMovements());
             return ResponseEntity.ok(productService.saveProduct(existingProduct));

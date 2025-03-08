@@ -7,25 +7,34 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "movimentacao")
 public class StockMovement {
 
     @Id
-    @Column(name = "stock_movement_id")
+    @Column(name = "id_movimentacao")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
     @NotNull(message = "The movement type is required")
+    @Column(name = "tipo_movimentacao")
     private MovementType movementType;
     @Positive(message = "The quantity must be a positive value")
     @NotNull(message = "The quantity is required")
+    @Column(name = "quantidade")
     private Integer quantity;
+    @Column(name = "data_movimentacao")
     private LocalDateTime movement_date;
+    @Column(name = "observacao")
     private String observation;
 
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "id_produto")
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "id_fornecedor")
+    private Supplier supplier;
 
 
     public Long getId() {
@@ -76,4 +85,11 @@ public class StockMovement {
         this.product = product;
     }
 
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
 }

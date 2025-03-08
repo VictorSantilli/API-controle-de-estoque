@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,9 +49,6 @@ public class UserController {
             existingUser.setName(user.getName());
             existingUser.setEmail(user.getEmail());
             existingUser.setPassword(user.getPassword());
-            existingUser.setProfile(user.getProfile());
-            existingUser.setProducts(user.getProducts());
-            existingUser.setStockMovements(user.getStockMovements());
             return ResponseEntity.ok(userService.saveUser(existingUser));
         }
         return ResponseEntity.notFound().build();
