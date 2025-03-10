@@ -17,11 +17,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping
+  /*  @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
         User savedUser = userService.saveUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+    }*/
 
     @GetMapping("/list")
     public List<UserResponseDto> listUsers(){
