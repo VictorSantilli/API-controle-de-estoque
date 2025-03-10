@@ -39,9 +39,9 @@ public class StockMovementService {
     // Método para excluir o que a movimentação tinha retirado ou colocado no estoque
     private void revertStockMovement(Product product, StockMovement stockMovement){
         if (stockMovement.getMovementType() == MovementType.ENTRADA){
-            product.setQuantity(product.getQuantity() - stockMovement.getQuantity());
+            product.setQuantity_stock(product.getQuantity_stock() - stockMovement.getQuantity());
         } else if (stockMovement.getMovementType() == MovementType.SAIDA) {
-            product.setQuantity(product.getQuantity() + stockMovement.getQuantity());
+            product.setQuantity_stock(product.getQuantity_stock() + stockMovement.getQuantity());
         }
 
     }
@@ -49,12 +49,12 @@ public class StockMovementService {
     //Método para atualizar a tabela de produtos
     private void updateProductStock(Product product, StockMovement stockMovement) {
         if (stockMovement.getMovementType() == MovementType.ENTRADA) {
-            product.setQuantity(product.getQuantity() + stockMovement.getQuantity());
+            product.setQuantity_stock(product.getQuantity_stock() + stockMovement.getQuantity());
         } else if (stockMovement.getMovementType() == MovementType.SAIDA) {
-            if (product.getQuantity() < stockMovement.getQuantity()) {
+            if (product.getQuantity_stock() < stockMovement.getQuantity()) {
                 throw new RuntimeException("Quantidade insuficiente em estoque");
             } else {
-                product.setQuantity(product.getQuantity() - stockMovement.getQuantity());
+                product.setQuantity_stock(product.getQuantity_stock() - stockMovement.getQuantity());
             }
 
         }
@@ -65,11 +65,9 @@ public class StockMovementService {
         Product product = productRepository.findById(requestDto.productId())
                 .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
 
-
-        if (requestDto.movementType() == MovementType.SAIDA && product.getQuantity() < requestDto.quantity()) {
+        if (requestDto.movementType() == MovementType.SAIDA && product.getQuantity_stock() < requestDto.quantity()) {
             throw new RuntimeException("Quantidade insuficiente em estoque para essa saída");
         }
-
         StockMovement stockMovement = new StockMovement();
         stockMovement.setProduct(product);
         stockMovement.setMovementType(requestDto.movementType());

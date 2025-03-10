@@ -2,6 +2,7 @@ package com.br.api_controle_estoque.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -14,10 +15,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "The name of the category is required!")
+    @NotNull(message = "The name of the category is required!")
     @Column(name = "nome")
     private String name;
-    @NotEmpty(message = "The description of the category is required!")
+    @NotNull(message = "The description of the category is required!")
     @Column(name = "descricao")
     private String description;
 

@@ -22,11 +22,22 @@ public class Product {
     private String name;
     @Column(name = "descricao")
     private String description;
-    private BigDecimal price;
-    @Positive(message = "The quantity must be a positive value")
-    @NotNull(message = "The quantity is required")
-    private Integer quantity;
 
+    @Column(name = "quantidade_estoque")
+    @NotNull
+    @Positive
+    private Integer quantity_stock;
+
+    @Column(name = "quantidade_minima")
+    @NotNull
+    @Positive
+    private Integer quantity_min;
+
+    @Column(name = "unidade_de_medida")
+    @NotNull
+    private String unit_of_measure;
+
+    @NotNull
     private boolean status;
 
     @ManyToOne
@@ -61,20 +72,37 @@ public class Product {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public @NotNull @Positive Integer getQuantity_stock() {
+        return quantity_stock;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setQuantity_stock(@NotNull @Positive Integer quantity_stock) {
+        this.quantity_stock = quantity_stock;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public @NotNull @Positive Integer getQuantity_min() {
+        return quantity_min;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setQuantity_min(@NotNull @Positive Integer quantity_min) {
+        this.quantity_min = quantity_min;
+    }
+
+    public @NotNull String getUnit_of_measure() {
+        return unit_of_measure;
+    }
+
+    public void setUnit_of_measure(@NotNull String unit_of_measure) {
+        this.unit_of_measure = unit_of_measure;
+    }
+
+    @NotNull
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(@NotNull boolean status) {
+        this.status = status;
     }
 
     public Category getCategory() {

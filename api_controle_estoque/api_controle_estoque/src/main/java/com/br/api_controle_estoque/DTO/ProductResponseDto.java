@@ -10,19 +10,22 @@ public class ProductResponseDto {
     private Long id;
     private String name;
     private String description;
-    private BigDecimal price;
-    private Integer quantity;
+    private Integer quantity_min;
+    private Integer quantity_stock;
+    private String unit_of_measure;
     private String nameCategory;
 
 
 
-    public ProductResponseDto(Long id, String name, String description, BigDecimal price, Integer quantity,
-                              String nameCategory) {
+    public ProductResponseDto(Long id, String name, String description,
+                              Integer quantity_min, Integer quantity_stock,
+                              String unit_of_measure, String nameCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.price = price;
-        this.quantity = quantity;
+        this.quantity_min = quantity_min;
+        this.quantity_stock = quantity_stock;
+        this.unit_of_measure = unit_of_measure;
         this.nameCategory = nameCategory;
 
     }
@@ -35,8 +38,9 @@ public class ProductResponseDto {
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
-                product.getPrice(),
-                product.getQuantity(),
+                product.getQuantity_min(),
+                product.getQuantity_stock(),
+                product.getUnit_of_measure(),
                 product.getCategory() != null ? product.getCategory().getName() : null // Nome da Categoria
         );
 
@@ -66,22 +70,29 @@ public class ProductResponseDto {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public Integer getQuantity_min() {
+        return quantity_min;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setQuantity_min(Integer quantity_min) {
+        this.quantity_min = quantity_min;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getQuantity_stock() {
+        return quantity_stock;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setQuantity_stock(Integer quantity_stock) {
+        this.quantity_stock = quantity_stock;
     }
 
+    public String getUnit_of_measure() {
+        return unit_of_measure;
+    }
+
+    public void setUnit_of_measure(String unit_of_measure) {
+        this.unit_of_measure = unit_of_measure;
+    }
 
     public String getNameCategory() {
         return nameCategory;

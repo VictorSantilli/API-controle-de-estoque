@@ -46,9 +46,20 @@ public class SupplierController {
                                                    @Valid @RequestBody Supplier supplier){
         Supplier existingSupplier = supplierService.searchSupplier(id);
 
+       /* private String public_place;
+        private String number;
+        private String neighborhood;
+        private String city;
+        private String state;*/
         if (existingSupplier != null){
             existingSupplier.setName(supplier.getName());
-            existingSupplier.setAddress(supplier.getAddress());
+            existingSupplier.setCnpj(supplier.getCnpj());
+            existingSupplier.setCep(supplier.getCep());
+            existingSupplier.setPublic_place(supplier.getPublic_place());
+            existingSupplier.setNumber(supplier.getNumber());
+            existingSupplier.setNeighborhood(supplier.getNeighborhood());
+            existingSupplier.setCity(existingSupplier.getCity());
+            existingSupplier.setState(supplier.getName());
             existingSupplier.setEmail(supplier.getEmail());
             existingSupplier.setPhone(supplier.getPhone());
             existingSupplier.setMovements(supplier.getMovements());

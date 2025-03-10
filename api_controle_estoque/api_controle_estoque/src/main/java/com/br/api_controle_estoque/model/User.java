@@ -2,6 +2,7 @@ package com.br.api_controle_estoque.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -13,11 +14,13 @@ public class User {
     @Column(name = "id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "The name of the user is required.")
+    @NotNull(message = "The name of the user is required.")
     @Column(name = "nome")
     private String name;
+    @NotNull(message = "The email of the user is required.")
     @Column(unique = true, nullable = false)
     private String email;
+    @NotNull(message = "The password of the user is required.")
     @Column(name = "senha")
     private String password;
 

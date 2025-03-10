@@ -50,8 +50,7 @@ public class ProductController {
 
         if (existingProduct != null){
             existingProduct.setName(product.getName());
-            existingProduct.setPrice(product.getPrice());
-            existingProduct.setQuantity(product.getQuantity());
+            existingProduct.setQuantity_min(product.getQuantity_min());
             existingProduct.setDescription(product.getDescription());
             existingProduct.setCategory(product.getCategory());
             existingProduct.setStockMovements(product.getStockMovements());
