@@ -1,0 +1,10 @@
+package com.br.api_controle_estoque.DTO;
+
+import jakarta.validation.constraints.NotNull;
+
+public record CategoryRequestDto(
+        @NotNull(message = "The name of the category is required!")
+        String name,
+        @NotNull(message = "The description of the category is required!")
+        String description) {
+}

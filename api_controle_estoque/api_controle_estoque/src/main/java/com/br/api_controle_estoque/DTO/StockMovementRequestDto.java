@@ -1,8 +1,10 @@
 package com.br.api_controle_estoque.DTO;
 
-import com.br.api_controle_estoque.model.MovementType;
+import com.br.api_controle_estoque.model.Enum.MovementType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+
+import java.math.BigDecimal;
 
 public record StockMovementRequestDto(
         @NotNull(message = "O ID do produto é obrigatório")
@@ -15,6 +17,8 @@ public record StockMovementRequestDto(
         @NotNull(message = "A quantidade é obrigatória")
         Integer quantity,
 
-        String observation
+        String observation,
+        Long supplierId,
+        BigDecimal price
 ) {
 }

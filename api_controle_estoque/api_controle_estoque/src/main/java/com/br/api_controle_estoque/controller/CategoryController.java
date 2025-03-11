@@ -1,5 +1,6 @@
 package com.br.api_controle_estoque.controller;
 
+import com.br.api_controle_estoque.DTO.CategoryRequestDto;
 import com.br.api_controle_estoque.DTO.CategoryResponseDTO;
 import com.br.api_controle_estoque.model.Category;
 import com.br.api_controle_estoque.service.CategoryService;
@@ -23,9 +24,11 @@ public class CategoryController {
 
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category){
-       Category savedCategory = categoryService.saveCategory(category);
-       return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<CategoryResponseDTO> createCategory(
+            @Valid @RequestBody CategoryRequestDto requestDto){
+       Category savedCategory = categoryService.saveCategory(requestDto);
+       CategoryResponseDTO responseDTO = new CategoryResponseDTO(savedCategory);
+       return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
 

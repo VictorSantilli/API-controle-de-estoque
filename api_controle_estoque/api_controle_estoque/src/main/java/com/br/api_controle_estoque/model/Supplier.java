@@ -1,8 +1,6 @@
 package com.br.api_controle_estoque.model;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -20,18 +18,19 @@ public class Supplier {
     private String name;
 
     @Column(unique = true, nullable = false, name = "telefone")
-    @Size(max = 20, message = "The phone number must have a maximum of 20 characters.")
+    @Pattern(regexp = "\\d{10,11}", message = "The phone number must contain 10 or 11 numeric digits")
     private String phone;
     @Column(unique = true, nullable = false)
+    @Email
     private String email;
 
 
     @NotNull
-    @Size(max = 20, message = "The CNPJ must have a maximum of 20 characters.")
+        @Pattern(regexp = "\\d{14}", message = "The CNPJ must contain 14 numeric digits")
     private String cnpj;
 
     @NotNull
-    @Size(max = 10, message = "The zip code must have a maximum of 10 characters.")
+    @Pattern(regexp = "\\d{8}", message = "The CEP must contain 8 numeric digits")
     private String cep;
 
     @Column(name = "logradouro")

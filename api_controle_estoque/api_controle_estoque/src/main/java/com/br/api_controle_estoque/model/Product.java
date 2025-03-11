@@ -1,12 +1,10 @@
 package com.br.api_controle_estoque.model;
 
+import com.br.api_controle_estoque.model.Enum.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -17,7 +15,7 @@ public class Product {
     @Column(name = "id_produto")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "The name of the product is required.")
+    @NotNull(message = "The name of the product is required.")
     @Column(name = "nome")
     private String name;
     @Column(name = "descricao")
@@ -38,10 +36,12 @@ public class Product {
     private String unit_of_measure;
 
     @NotNull
-    private boolean status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
+    @NotNull
     private Category category;
 
     @OneToMany(mappedBy = "product")
@@ -96,12 +96,11 @@ public class Product {
         this.unit_of_measure = unit_of_measure;
     }
 
-    @NotNull
-    public boolean isStatus() {
+    public @NotNull Status getStatus() {
         return status;
     }
 
-    public void setStatus(@NotNull boolean status) {
+    public void setStatus(@NotNull Status status) {
         this.status = status;
     }
 

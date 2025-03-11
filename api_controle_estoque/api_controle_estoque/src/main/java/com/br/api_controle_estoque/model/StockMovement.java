@@ -1,5 +1,6 @@
 package com.br.api_controle_estoque.model;
 
+import com.br.api_controle_estoque.model.Enum.MovementType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -37,6 +38,7 @@ public class StockMovement {
 
     @ManyToOne
     @JoinColumn(name = "id_produto")
+    @NotNull
     private Product product;
 
     @ManyToOne
