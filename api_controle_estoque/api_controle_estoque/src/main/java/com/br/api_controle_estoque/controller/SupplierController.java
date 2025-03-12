@@ -1,10 +1,17 @@
 package com.br.api_controle_estoque.controller;
+import com.br.api_controle_estoque.DTO.ProductResponseDto;
+import com.br.api_controle_estoque.DTO.SupplierRequestDto;
 import com.br.api_controle_estoque.DTO.SupplierResponseDto;
 import com.br.api_controle_estoque.model.Supplier;
 import com.br.api_controle_estoque.service.SupplierService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.persistence.Column;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +26,26 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
+
     @Operation(summary = "Cadastrar um novo fornecedor", description = "Cria um novo fornecedor no sistema.")
     @ApiResponse(responseCode = "201", description = "fornecedor criado com sucesso")
     @PostMapping
-    public ResponseEntity<Supplier> createSupplier(@Valid @RequestBody Supplier supplier){
+    public ResponseEntity<SupplierResponseDto> createSupplier(@Valid @RequestBody SupplierRequestDto requestDto){
+
+        Supplier supplier = new Supplier();
+        supplier.setName(requestDto.name());
+        supplier.setPhone(requestDto.phone());
+        supplier.setEmail(requestDto.email());
+        supplier.setCnpj(requestDto.cnpj());
+        supplier.setCep(requestDto.cep());
+        supplier.setPublic_place(requestDto.public_place());
+        supplier.setNumber(requestDto.number());
+        supplier.setNeighborhood(requestDto.neighborhood());
+        supplier.setCity(requestDto.city());
+        supplier.setState(requestDto.state());
         Supplier savedSupplier = supplierService.saveSupplier(supplier);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(SupplierResponseDto.fromEntity(savedSupplier));
     }
 
     @Operation(summary = "Buscar todos os fornecedores", description = "Retorna uma lista com todos os fornecedores cadastrados.")
@@ -53,23 +73,24 @@ public class SupplierController {
     @ApiResponse(responseCode = "200", description = "Fornecedor atualizado com sucesso")
     @ApiResponse(responseCode = "404", description = "Fornecedor não encontrado")
     @PutMapping("/{id}")
-    public ResponseEntity<Supplier> updateSupplier(@PathVariable Long id,
-                                                   @Valid @RequestBody Supplier supplier){
-        Supplier existingSupplier = supplierService.searchSupplier(id);
+    public ResponseEntity<SupplierResponseDto> updateSupplier(@PathVariable Long id,
+                                                   @Valid @RequestBody SupplierRequestDto requestDto){
+        Supplier supplier = supplierService.searchSupplier(id);
 
-        if (existingSupplier != null){
-            existingSupplier.setName(supplier.getName());
-            existingSupplier.setCnpj(supplier.getCnpj());
-            existingSupplier.setCep(supplier.getCep());
-            existingSupplier.setPublic_place(supplier.getPublic_place());
-            existingSupplier.setNumber(supplier.getNumber());
-            existingSupplier.setNeighborhood(supplier.getNeighborhood());
-            existingSupplier.setCity(existingSupplier.getCity());
-            existingSupplier.setState(supplier.getName());
-            existingSupplier.setEmail(supplier.getEmail());
-            existingSupplier.setPhone(supplier.getPhone());
-            existingSupplier.setMovements(supplier.getMovements());
-            return ResponseEntity.ok(supplierService.saveSupplier(existingSupplier));
+        if (supplier != null){
+            supplier.setName(requestDto.name());
+            supplier.setPhone(requestDto.phone());
+            supplier.setEmail(requestDto.email());
+            supplier.setCnpj(requestDto.cnpj());
+            supplier.setCep(requestDto.cep());
+            supplier.setPublic_place(requestDto.public_place());
+            supplier.setNumber(requestDto.number());
+            supplier.setNeighborhood(requestDto.neighborhood());
+            supplier.setCity(requestDto.city());
+            supplier.setState(requestDto.state());
+
+            Supplier updateSupplier = supplierService.saveSupplier(supplier);
+            return ResponseEntity.ok(SupplierResponseDto.fromEntity(updateSupplier));
         }
         return ResponseEntity.notFound().build();
     }

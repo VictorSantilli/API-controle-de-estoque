@@ -64,6 +64,8 @@ public class StockMovementService {
 
     public StockMovement createStockMovement(StockMovementRequestDto requestDto) {
 
+
+
         Product product = productRepository.findById(requestDto.productId())
                 .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
 
@@ -80,8 +82,9 @@ public class StockMovementService {
         stockMovement.setQuantity(requestDto.quantity());
         stockMovement.setObservation(requestDto.observation());
         stockMovement.setPrice(requestDto.price());
-        stockMovement.setSupplier(supplier);
-
+        if (supplier != null) {
+            stockMovement.setSupplier(supplier);
+        }
         // Lógica para atualizar na tabela de produtos
         updateProductStock(product, stockMovement);
 

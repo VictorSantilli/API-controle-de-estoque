@@ -3,6 +3,7 @@ package com.br.api_controle_estoque.DTO;
 import com.br.api_controle_estoque.model.Category;
 import com.br.api_controle_estoque.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,9 +25,9 @@ public class CategoryResponseDTO {
         this.id = category.getId();
         this.name = category.getName();
         this.description = category.getDescription();
-        this.productNames = category.getProducts().stream()
-                .map(Product::getName)
-                .collect(Collectors.toList());
+        this.productNames = category.getProducts() != null
+                ? category.getProducts().stream().map(Product::getName).collect(Collectors.toList())
+                : new ArrayList<>();
     }
 
     public static CategoryResponseDTO fromEntity(Category category) {
@@ -35,11 +36,8 @@ public class CategoryResponseDTO {
                 category.getName(),
                 category.getDescription(),
                 category.getProducts() != null
-                        ? category.getProducts().stream()
-                        .map(Product::getName)
-                        .collect(Collectors.toList())
-                        : null
-        );
+                        ? category.getProducts().stream().map(Product::getName).collect(Collectors.toList())
+                        : new ArrayList<>());
     }
 
     public Long getId() {

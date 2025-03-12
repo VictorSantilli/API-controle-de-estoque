@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 @Entity
@@ -22,9 +24,8 @@ public class Product {
     private String description;
 
     @Column(name = "quantidade_estoque")
-    @NotNull
     @Positive
-    private Integer quantity_stock;
+    private Integer quantity_stock = 0;
 
     @Column(name = "quantidade_minima")
     @NotNull
@@ -33,6 +34,7 @@ public class Product {
 
     @Column(name = "unidade_de_medida")
     @NotNull
+    @Size(max = 3)
     private String unit_of_measure;
 
     @NotNull
@@ -72,11 +74,11 @@ public class Product {
         this.description = description;
     }
 
-    public @NotNull @Positive Integer getQuantity_stock() {
+    public @Positive Integer getQuantity_stock() {
         return quantity_stock;
     }
 
-    public void setQuantity_stock(@NotNull @Positive Integer quantity_stock) {
+    public void setQuantity_stock(@Positive Integer quantity_stock) {
         this.quantity_stock = quantity_stock;
     }
 
