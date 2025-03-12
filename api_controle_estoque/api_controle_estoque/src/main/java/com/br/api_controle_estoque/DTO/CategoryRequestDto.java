@@ -7,4 +7,11 @@ public record CategoryRequestDto(
         String name,
         @NotNull(message = "The description of the category is required!")
         String description) {
+
+        public CategoryRequestDto(@NotNull(message = "The name of the category is required!")
+                                  String name, @NotNull(message = "The description of the category is required!")
+                                  String description) {
+                this.name = name;
+                this.description = description;
+        }
 }

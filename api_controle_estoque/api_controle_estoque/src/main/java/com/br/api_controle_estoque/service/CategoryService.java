@@ -1,5 +1,6 @@
 package com.br.api_controle_estoque.service;
 
+import com.br.api_controle_estoque.DTO.CategoryRequestDto;
 import com.br.api_controle_estoque.exceptions.NotFoundException;
 import com.br.api_controle_estoque.model.Category;
 import com.br.api_controle_estoque.repository.CategoryRepository;
@@ -22,6 +23,7 @@ public class CategoryService {
     }
 
     public Category saveCategory(Category category){
+
         return categoryRepository.save(category);
     }
 

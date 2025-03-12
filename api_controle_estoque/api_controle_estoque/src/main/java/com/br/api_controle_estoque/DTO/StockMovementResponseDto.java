@@ -2,6 +2,8 @@ package com.br.api_controle_estoque.DTO;
 
 import com.br.api_controle_estoque.model.StockMovement;
 
+import java.math.BigDecimal;
+
 public class StockMovementResponseDto {
     private Long id;
     private String productName;
@@ -10,11 +12,14 @@ public class StockMovementResponseDto {
     private String movementDate;
     private String observation;
     private String supplierName;
+    private BigDecimal price;
+
 
 
     public StockMovementResponseDto(Long id, String productName, String movementType,
                                     Integer quantity, String movementDate,
-                                    String observation, String supplierName) {
+                                    String observation, String supplierName,
+                                    BigDecimal price) {
         this.id = id;
         this.productName = productName;
         this.movementType = movementType;
@@ -22,6 +27,7 @@ public class StockMovementResponseDto {
         this.movementDate = movementDate;
         this.observation = observation;
         this.supplierName = supplierName;
+        this.price = price;
 
     }
 
@@ -33,6 +39,7 @@ public class StockMovementResponseDto {
         this.movementDate = stockMovement.getMovement_date() != null ? stockMovement.getMovement_date().toString() : null;
         this.observation = stockMovement.getObservation();
         this.supplierName = stockMovement.getSupplier() != null ? stockMovement.getSupplier().getName() : null;
+        this.price = stockMovement.getPrice();
 
     }
     public static StockMovementResponseDto fromEntity(StockMovement stockMovement) {
@@ -43,7 +50,8 @@ public class StockMovementResponseDto {
                 stockMovement.getQuantity(),
                 stockMovement.getMovement_date() != null ? stockMovement.getMovement_date().toString() : null,
                 stockMovement.getObservation(),
-                stockMovement.getSupplier() != null ? stockMovement.getSupplier().getName() : null
+                stockMovement.getSupplier() != null ? stockMovement.getSupplier().getName() : null,
+                stockMovement.getPrice()
         );
     }
 
@@ -101,5 +109,13 @@ public class StockMovementResponseDto {
 
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

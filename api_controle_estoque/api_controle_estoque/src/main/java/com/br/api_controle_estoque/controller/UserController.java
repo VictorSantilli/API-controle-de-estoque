@@ -3,6 +3,8 @@ package com.br.api_controle_estoque.controller;
 import com.br.api_controle_estoque.DTO.UserResponseDto;
 import com.br.api_controle_estoque.model.User;
 import com.br.api_controle_estoque.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,12 +19,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-  /*  @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        User savedUser = userService.saveUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }*/
-
+    @Operation(summary = "Buscar todos os usuários", description = "Retorna uma lista com todos os usuários cadastrados.")
     @GetMapping("/list")
     public List<UserResponseDto> listUsers(){
         return userService.listUsers().stream()
@@ -30,6 +27,9 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @Operation(summary = "Buscar usuário por ID", description = "Retorna um usuário específico baseado no ID fornecido.")
+    @ApiResponse(responseCode = "200", description = "Usuário encontrado")
+    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> searchUser(@PathVariable Long id){
         User findUser = userService.searchUser(id);
@@ -40,6 +40,9 @@ public class UserController {
         return ResponseEntity.ok(UserResponseDto.fromEntity(findUser));
     }
 
+    @Operation(summary = "Atualizar usuário existente", description = "Atualiza as informações de um usuário existente.")
+    @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id,
                                            @Valid @RequestBody User user){
@@ -53,7 +56,9 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
-
+    @Operation(summary = "Deletar usuário ", description = "Deleta um usuário  do sistema com base no ID fornecido.")
+    @ApiResponse(responseCode = "200", description = "Usuário deletado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         User existingUser = userService.searchUser(id);

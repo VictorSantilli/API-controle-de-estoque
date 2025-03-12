@@ -4,6 +4,8 @@ import com.br.api_controle_estoque.DTO.CategoryRequestDto;
 import com.br.api_controle_estoque.DTO.CategoryResponseDTO;
 import com.br.api_controle_estoque.model.Category;
 import com.br.api_controle_estoque.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,13 +24,19 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-
+    @Operation(summary = "Cadastrar uma nova categoria", description = "Cria uma nova categoria no sistema.")
+    @ApiResponse(responseCode = "201", description = "Categoria criada com sucesso")
     @PostMapping
     public ResponseEntity<CategoryResponseDTO> createCategory(
             @Valid @RequestBody CategoryRequestDto requestDto){
-       Category savedCategory = categoryService.saveCategory(requestDto);
-       CategoryResponseDTO responseDTO = new CategoryResponseDTO(savedCategory);
-       return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+
+        Category category = new Category();
+        category.setName(requestDto.name());
+        category.setDescription(requestDto.description());
+        Category savedCategory = categoryService.saveCategory(category);
+        CategoryResponseDTO responseDTO = new CategoryResponseDTO(savedCategory);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
 
@@ -49,16 +57,16 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id,
-                                                   @Valid @RequestBody Category category){
-
+    public ResponseEntity<CategoryResponseDTO> updateCategory(@PathVariable Long id,
+                                                   @Valid @RequestBody CategoryRequestDto categoryDto){
         Category existingCategory = categoryService.searchCategory(id);
 
         if (existingCategory != null){
-            existingCategory.setName(category.getName());
-            existingCategory.setDescription(category.getDescription());
-            existingCategory.setProducts(category.getProducts());
-            return ResponseEntity.ok(categoryService.saveCategory(existingCategory));
+            existingCategory.setName(categoryDto.name());
+            existingCategory.setDescription(categoryDto.description());
+
+            Category updateCategory = categoryService.saveCategory(existingCategory);
+            return ResponseEntity.ok(new CategoryResponseDTO(updateCategory));
         }
         return ResponseEntity.notFound().build();
     }
@@ -72,6 +80,5 @@ public class CategoryController {
         }
         return ResponseEntity.notFound().build();
     }
-
 
 }

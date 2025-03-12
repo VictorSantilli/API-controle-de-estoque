@@ -10,9 +10,6 @@ import java.math.BigDecimal;
 
 public record StockMovementRequestUpdateDto(
         @NotNull
-        Long idMovement,
-
-        @NotNull
         Long idProduct,
 
         @Positive(message = "The quantity must be a positive value")

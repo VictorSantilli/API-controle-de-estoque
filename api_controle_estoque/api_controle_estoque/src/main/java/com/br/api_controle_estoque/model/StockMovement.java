@@ -16,10 +16,12 @@ public class StockMovement {
     @Column(name = "id_movimentacao")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated(EnumType.STRING)
     @NotNull(message = "The movement type is required")
     @Column(name = "tipo_movimentacao")
     private MovementType movementType;
+
     @Column(name = "quantidade")
     @Positive(message = "The quantity must be a positive value")
     @NotNull(message = "The quantity is required")
@@ -32,9 +34,9 @@ public class StockMovement {
     @Column(name = "data_movimentacao")
     @NotNull
     private LocalDateTime movement_date;
+
     @Column(name = "observacao")
     private String observation;
-
 
     @ManyToOne
     @JoinColumn(name = "id_produto")
@@ -100,5 +102,13 @@ public class StockMovement {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

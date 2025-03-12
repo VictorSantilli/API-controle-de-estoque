@@ -1,12 +1,6 @@
 package com.br.api_controle_estoque.DTO;
-
-import com.br.api_controle_estoque.model.Product;
 import com.br.api_controle_estoque.model.StockMovement;
 import com.br.api_controle_estoque.model.Supplier;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

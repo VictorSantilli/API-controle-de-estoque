@@ -6,8 +6,10 @@ import com.br.api_controle_estoque.exceptions.NotFoundException;
 import com.br.api_controle_estoque.model.Enum.MovementType;
 import com.br.api_controle_estoque.model.Product;
 import com.br.api_controle_estoque.model.StockMovement;
+import com.br.api_controle_estoque.model.Supplier;
 import com.br.api_controle_estoque.repository.ProductRepository;
 import com.br.api_controle_estoque.repository.StockMovementRepository;
+import com.br.api_controle_estoque.repository.SupplierRepository;
 import com.br.api_controle_estoque.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class StockMovementService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SupplierRepository supplierRepository;
 
 
     public List<StockMovement> listStockMovement(){
@@ -55,7 +59,6 @@ public class StockMovementService {
             } else {
                 product.setQuantity_stock(product.getQuantity_stock() - stockMovement.getQuantity());
             }
-
         }
     }
 
@@ -63,6 +66,9 @@ public class StockMovementService {
 
         Product product = productRepository.findById(requestDto.productId())
                 .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
+
+        Supplier supplier = supplierRepository.findById(requestDto.supplierId())
+                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
 
         if (requestDto.movementType() == MovementType.SAIDA && product.getQuantity_stock() < requestDto.quantity()) {
             throw new RuntimeException("Quantidade insuficiente em estoque para essa saída");
@@ -73,35 +79,43 @@ public class StockMovementService {
         stockMovement.setMovement_date(LocalDateTime.now());
         stockMovement.setQuantity(requestDto.quantity());
         stockMovement.setObservation(requestDto.observation());
+        stockMovement.setPrice(requestDto.price());
+        stockMovement.setSupplier(supplier);
 
         // Lógica para atualizar na tabela de produtos
         updateProductStock(product, stockMovement);
+
+
         productRepository.save(product);
 
         return stockMovementRepository.save(stockMovement);
     }
 
-    public StockMovement updateStockMovement(StockMovementRequestUpdateDto updateDto){
-        StockMovement existingMovement = stockMovementRepository.findById(updateDto.id())
+    public StockMovement updateStockMovement(Long id,StockMovementRequestDto updateDto){
+        StockMovement existingMovement = stockMovementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Movimentação não encontrada"));
+
+        Supplier supplier = supplierRepository.findById(updateDto.supplierId())
+                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
 
 
         Product product = existingMovement.getProduct();
 
+
         revertStockMovement(product, existingMovement);
         productRepository.save(product);
 
-
-        existingMovement.setQuantity(updateDto.newQuantity());
-        existingMovement.setMovementType(updateDto.newMovementType());
+        existingMovement.setMovementType(updateDto.movementType());
+        existingMovement.setQuantity(updateDto.quantity());
         existingMovement.setObservation(updateDto.observation());
-        existingMovement.setMovement_date(LocalDateTime.now());
+        existingMovement.setSupplier(supplier);
+        existingMovement.setPrice(updateDto.price());
 
+        existingMovement.setMovement_date(LocalDateTime.now());
         updateProductStock(product, existingMovement);
         productRepository.save(product);
 
         return stockMovementRepository.save(existingMovement);
-
     }
 
     public StockMovement searchStockMovement(Long id){

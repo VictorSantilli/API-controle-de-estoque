@@ -6,6 +6,8 @@ import com.br.api_controle_estoque.DTO.RegisterRequestDto;
 import com.br.api_controle_estoque.infra.security.TokenService;
 import com.br.api_controle_estoque.model.User;
 import com.br.api_controle_estoque.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +32,9 @@ public class AuthController {
         this.tokenService = tokenService;
     }
 
+    @Operation(summary = "Realizar um login de usuário", description = "Realiza o login de um usuário no sistema.")
+    @ApiResponse(responseCode = "200", description = "Usuário logado com sucesso")
+    @ApiResponse(responseCode = "400", description = "Erro na autenticação do usuário. Pode ser causado por e-mail ou senha inválidos.")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDto body){
         User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
@@ -40,6 +45,9 @@ public class AuthController {
         return ResponseEntity.badRequest().build();
     }
 
+    @Operation(summary = "Cadastrar um novo usuário", description = "Cria um novo usuário no sistema.")
+    @ApiResponse(responseCode = "200", description = "Usuário criado com sucesso")
+    @ApiResponse(responseCode = "400", description = "Erro ao criar o usuário. Pode ocorrer se o e-mail já estiver em uso.")
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDto body){
         Optional<User> user = this.repository.findByEmail(body.email());

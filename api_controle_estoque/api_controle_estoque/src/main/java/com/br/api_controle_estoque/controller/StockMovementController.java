@@ -5,6 +5,8 @@ import com.br.api_controle_estoque.DTO.StockMovementRequestUpdateDto;
 import com.br.api_controle_estoque.DTO.StockMovementResponseDto;
 import com.br.api_controle_estoque.model.StockMovement;
 import com.br.api_controle_estoque.service.StockMovementService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,8 @@ public class StockMovementController {
 
 
 
+    @Operation (summary = "Cadastrar uma nova movimentação", description = "Cria um nova movimentação de estoque no sistema.")
+    @ApiResponse(responseCode = "201", description = "Movimentação criada com sucesso.")
     @PostMapping
     public ResponseEntity<StockMovementResponseDto> createStockMovement(
             @Valid @RequestBody StockMovementRequestDto requestDto){
@@ -33,6 +37,8 @@ public class StockMovementController {
         StockMovementResponseDto responseDto = new StockMovementResponseDto(savedStockMovement);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
+
+    @Operation(summary = "Buscar todas as movimentações", description = "Retorna uma lista com todas as movimentações cadastradas.")
     @GetMapping("/list")
     public List<StockMovementResponseDto> listMovements(){
         return stockMovementService.listStockMovement().stream()
@@ -40,6 +46,9 @@ public class StockMovementController {
                 .collect(Collectors.toList());
     }
 
+    @Operation(summary = "Buscar movimentação por ID", description = "Retorna uma movimentação específica baseado no ID fornecido.")
+    @ApiResponse(responseCode = "200", description = "Movimentação encontrada")
+    @ApiResponse(responseCode = "404", description = "Movimentação não encontrada")
     @GetMapping("/{id}")
     public ResponseEntity<StockMovementResponseDto> findMovements(@PathVariable Long id){
         StockMovement findMovement = stockMovementService.searchStockMovement(id);
@@ -51,20 +60,27 @@ public class StockMovementController {
         return ResponseEntity.ok(StockMovementResponseDto.fromEntity(findMovement));
     }
 
+    @Operation(summary = "Atualizar movimentação existente", description = "Atualiza as informações de uma movimentação existente.")
+    @ApiResponse(responseCode = "200", description = "Movimentação atualizada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Movimentação não encontrada")
     @PutMapping("/{id}")
     public ResponseEntity<StockMovement> updateMovement(@PathVariable Long id,
-                                                 @Valid @RequestBody StockMovementRequestUpdateDto movementDto){
+                                                 @Valid @RequestBody StockMovementRequestDto movementDto){
 
         try {
-            movementDto = new StockMovementRequestUpdateDto(id, movementDto.newQuantity(),
-                    movementDto.newMovementType(), movementDto.observation());
-            StockMovement updatedMovement = stockMovementService.updateStockMovement(movementDto);
+            movementDto = new StockMovementRequestDto(movementDto.productId(),movementDto.movementType(),
+                    movementDto.quantity(), movementDto.observation(),
+                    movementDto.supplierId(), movementDto.price());
+            StockMovement updatedMovement = stockMovementService.updateStockMovement(id,movementDto);
             return ResponseEntity.ok(updatedMovement);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
+    @Operation(summary = "Deletar movimentação", description = "Deleta uma movimentação do sistema com base no ID fornecido.")
+    @ApiResponse(responseCode = "204", description = "Movimentação deletada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Movimentação não encontrada")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         StockMovement existingMovement = stockMovementService.searchStockMovement(id);
