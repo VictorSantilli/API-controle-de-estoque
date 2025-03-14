@@ -2,10 +2,7 @@ package com.br.api_controle_estoque.model;
 
 import com.br.api_controle_estoque.model.Enum.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -24,7 +21,6 @@ public class Product {
     private String description;
 
     @Column(name = "quantidade_estoque")
-    @Positive
     private Integer quantity_stock = 0;
 
     @Column(name = "quantidade_minima")
@@ -74,11 +70,11 @@ public class Product {
         this.description = description;
     }
 
-    public @Positive Integer getQuantity_stock() {
+    public Integer getQuantity_stock() {
         return quantity_stock;
     }
 
-    public void setQuantity_stock(@Positive Integer quantity_stock) {
+    public void setQuantity_stock(Integer quantity_stock) {
         this.quantity_stock = quantity_stock;
     }
 
