@@ -64,7 +64,7 @@ public class StockMovementController {
     @ApiResponse(responseCode = "200", description = "Movimentação atualizada com sucesso")
     @ApiResponse(responseCode = "404", description = "Movimentação não encontrada")
     @PutMapping("/{id}")
-    public ResponseEntity<StockMovement> updateMovement(@PathVariable Long id,
+    public ResponseEntity<StockMovementResponseDto> updateMovement(@PathVariable Long id,
                                                  @Valid @RequestBody StockMovementRequestDto movementDto){
 
         try {
@@ -72,7 +72,8 @@ public class StockMovementController {
                     movementDto.quantity(), movementDto.observation(),
                     movementDto.supplierId(), movementDto.price());
             StockMovement updatedMovement = stockMovementService.updateStockMovement(id,movementDto);
-            return ResponseEntity.ok(updatedMovement);
+            StockMovementResponseDto responseDto = new StockMovementResponseDto(updatedMovement);
+            return ResponseEntity.ok(responseDto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

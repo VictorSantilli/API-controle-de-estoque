@@ -69,8 +69,12 @@ public class StockMovementService {
         Product product = productRepository.findById(requestDto.productId())
                 .orElseThrow(() -> new NotFoundException("Produto não encontrado"));
 
-        Supplier supplier = supplierRepository.findById(requestDto.supplierId())
-                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+        Supplier supplier = null;
+        if (requestDto.movementType() != MovementType.SAIDA) {
+            supplier = supplierRepository.findById(requestDto.supplierId())
+                    .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+        }
+
 
         if (requestDto.movementType() == MovementType.SAIDA && product.getQuantity_stock() < requestDto.quantity()) {
             throw new RuntimeException("Quantidade insuficiente em estoque para essa saída");
@@ -98,8 +102,11 @@ public class StockMovementService {
         StockMovement existingMovement = stockMovementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Movimentação não encontrada"));
 
-        Supplier supplier = supplierRepository.findById(updateDto.supplierId())
-                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+        Supplier supplier = null;
+        if (updateDto.movementType() != MovementType.SAIDA) {
+            supplier = supplierRepository.findById(updateDto.supplierId())
+                    .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+        }
 
 
         Product product = existingMovement.getProduct();
@@ -113,9 +120,13 @@ public class StockMovementService {
         existingMovement.setObservation(updateDto.observation());
         existingMovement.setSupplier(supplier);
         existingMovement.setPrice(updateDto.price());
-
         existingMovement.setMovement_date(LocalDateTime.now());
+        if (supplier != null){
+            existingMovement.setSupplier(supplier);
+        }
+
         updateProductStock(product, existingMovement);
+
         productRepository.save(product);
 
         return stockMovementRepository.save(existingMovement);
@@ -127,6 +138,14 @@ public class StockMovementService {
     }
 
     public void deleteStockMovement(Long id){
+        StockMovement existingMovement = stockMovementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movimentação não encontrada"));
+
+        Product product = existingMovement.getProduct();
+
+        revertStockMovement(product, existingMovement);
+        productRepository.save(product);
+
         stockMovementRepository.deleteById(id);
     }
 }
