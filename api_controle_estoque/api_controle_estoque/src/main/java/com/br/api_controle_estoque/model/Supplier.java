@@ -26,37 +26,15 @@ public class Supplier {
 
 
     @NotNull
-        @Pattern(regexp = "\\d{14}", message = "The CNPJ must contain 14 numeric digits")
+    @Pattern(regexp = "\\d{14}", message = "The CNPJ must contain 14 numeric digits")
     private String cnpj;
-
-    @NotNull
-    @Pattern(regexp = "\\d{8}", message = "The CEP must contain 8 numeric digits")
-    private String cep;
-
-    @Column(name = "logradouro")
-    @NotNull
-    private String public_place;
-
-    @Column(name = "numero")
-    @NotNull
-    @Size(max = 10, message = "The number must have a maximum of 10 characters.")
-    private String number;
-
-    @Column(name = "bairro")
-    @NotNull
-    private String neighborhood;
-
-    @Column(name = "cidade")
-    @NotNull
-    private String city;
-
-    @Column(name = "estado")
-    @NotNull
-    private String state;
-
 
     @OneToMany(mappedBy = "supplier")
     private List<StockMovement> movements;
+
+    @NotNull
+    @OneToOne(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Adress adress;
 
 
     public Long getId() {
@@ -99,52 +77,12 @@ public class Supplier {
         this.cnpj = cnpj;
     }
 
-    public @NotNull @Size(max = 10, message = "The zip code must have a maximum of 10 characters.") String getCep() {
-        return cep;
+    public @NotNull Adress getAdress() {
+        return adress;
     }
 
-    public void setCep(@NotNull @Size(max = 10, message = "The zip code must have a maximum of 10 characters.") String cep) {
-        this.cep = cep;
-    }
-
-    public @NotNull String getPublic_place() {
-        return public_place;
-    }
-
-    public void setPublic_place(@NotNull String public_place) {
-        this.public_place = public_place;
-    }
-
-    public @NotNull @Size(max = 10, message = "The number must have a maximum of 10 characters.") String getNumber() {
-        return number;
-    }
-
-    public void setNumber(@NotNull @Size(max = 10, message = "The number must have a maximum of 10 characters.") String number) {
-        this.number = number;
-    }
-
-    public @NotNull String getNeighborhood() {
-        return neighborhood;
-    }
-
-    public void setNeighborhood(@NotNull String neighborhood) {
-        this.neighborhood = neighborhood;
-    }
-
-    public @NotNull String getCity() {
-        return city;
-    }
-
-    public void setCity(@NotNull String city) {
-        this.city = city;
-    }
-
-    public @NotNull String getState() {
-        return state;
-    }
-
-    public void setState(@NotNull String state) {
-        this.state = state;
+    public void setAdress(@NotNull Adress adress) {
+        this.adress = adress;
     }
 
     public List<StockMovement> getMovements() {

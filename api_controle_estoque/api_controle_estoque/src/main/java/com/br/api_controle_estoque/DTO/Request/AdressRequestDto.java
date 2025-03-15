@@ -1,21 +1,11 @@
-package com.br.api_controle_estoque.DTO;
+package com.br.api_controle_estoque.DTO.Request;
 
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-public record SupplierRequestDto(
-        @NotEmpty(message = "The name of the supplier is required.")
-        String name,
-
-        @Pattern(regexp = "\\d{10,11}", message = "The phone number must contain 10 or 11 numeric digits")
-        String phone,
-        @Email
-        String email,
-
-        @NotNull
-        @Pattern(regexp = "\\d{14}", message = "The CNPJ must contain 14 numeric digits")
-        String cnpj,
-
+public record AdressRequestDto(
         @NotNull
         @Pattern(regexp = "\\d{8}", message = "The CEP must contain 8 numeric digits")
         String cep,
@@ -39,6 +29,8 @@ public record SupplierRequestDto(
 
         @Column(name = "estado")
         @NotNull
-        String state
+        String state,
+
+        Long supplierId
 ) {
 }

@@ -1,4 +1,4 @@
-package com.br.api_controle_estoque.DTO;
+package com.br.api_controle_estoque.DTO.Response;
 import com.br.api_controle_estoque.model.StockMovement;
 import com.br.api_controle_estoque.model.Supplier;
 import java.util.List;
@@ -10,29 +10,17 @@ public class SupplierResponseDto {
     private String phone;
     private String email;
     private String cnpj;
-    private String cep;
-    private String public_place;
-    private String number;
-    private String neighborhood;
-    private String city;
-    private String state;
+    private Long adressId;
     private List<String> productNames;
 
     public SupplierResponseDto(Long id, String name, String phone, String email,
-                               String cnpj, String cep,String public_place,
-                               String number,String neighborhood, String city,
-                               String state, List<String> productNames) {
+                               String cnpj, Long adressId, List<String> productNames) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.cnpj = cnpj;
-        this.cep = cep;
-        this.public_place = public_place;
-        this.number = number;
-        this.neighborhood = neighborhood;
-        this.city = city;
-        this.state = state;
+        this.adressId = adressId;
         this.productNames = productNames;
     }
 
@@ -42,12 +30,7 @@ public class SupplierResponseDto {
         this.phone = supplier.getPhone();
         this.email = supplier.getEmail();
         this.cnpj = supplier.getCnpj();
-        this.cep = supplier.getCep();
-        this.public_place = supplier.getPublic_place();
-        this.number = supplier.getNumber();
-        this.neighborhood = supplier.getNeighborhood();
-        this.city = supplier.getCity();
-        this.state = supplier.getState();
+        this.adressId = supplier.getAdress() != null ? supplier.getAdress().getId() : null;
         this.productNames = supplier.getMovements() != null ?
                 supplier.getMovements().stream()
                         .map(StockMovement::getProduct)
@@ -64,12 +47,7 @@ public class SupplierResponseDto {
                 supplier.getPhone(),
                 supplier.getEmail(),
                 supplier.getCnpj(),
-                supplier.getCep(),
-                supplier.getPublic_place(),
-                supplier.getNumber(),
-                supplier.getNeighborhood(),
-                supplier.getCity(),
-                supplier.getState(),
+                supplier.getAdress() != null ? supplier.getAdress().getId() : null,
                 supplier.getMovements() != null ?
                         supplier.getMovements().stream()
                                 .map(StockMovement::getProduct)
@@ -120,52 +98,12 @@ public class SupplierResponseDto {
         this.cnpj = cnpj;
     }
 
-    public String getCep() {
-        return cep;
+    public Long getAdressId() {
+        return adressId;
     }
 
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getPublic_place() {
-        return public_place;
-    }
-
-    public void setPublic_place(String public_place) {
-        this.public_place = public_place;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getNeighborhood() {
-        return neighborhood;
-    }
-
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+    public void setAdressId(Long adressId) {
+        this.adressId = adressId;
     }
 
     public List<String> getProductNames() {

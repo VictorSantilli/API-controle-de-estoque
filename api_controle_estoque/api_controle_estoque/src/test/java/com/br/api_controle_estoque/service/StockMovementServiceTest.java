@@ -1,6 +1,6 @@
 package com.br.api_controle_estoque.service;
 
-import com.br.api_controle_estoque.DTO.StockMovementRequestDto;
+import com.br.api_controle_estoque.DTO.Request.StockMovementRequestDto;
 import com.br.api_controle_estoque.model.Enum.MovementType;
 import com.br.api_controle_estoque.model.Product;
 import com.br.api_controle_estoque.model.StockMovement;

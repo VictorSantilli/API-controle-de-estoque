@@ -1,4 +1,4 @@
-package com.br.api_controle_estoque.DTO;
+package com.br.api_controle_estoque.DTO.Request;
 
 import com.br.api_controle_estoque.model.Enum.MovementType;
 import jakarta.persistence.EnumType;

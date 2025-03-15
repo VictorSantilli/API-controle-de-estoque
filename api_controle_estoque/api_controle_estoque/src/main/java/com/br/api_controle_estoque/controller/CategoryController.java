@@ -1,7 +1,8 @@
 package com.br.api_controle_estoque.controller;
 
-import com.br.api_controle_estoque.DTO.CategoryRequestDto;
-import com.br.api_controle_estoque.DTO.CategoryResponseDTO;
+import com.br.api_controle_estoque.DTO.Request.CategoryRequestDto;
+import com.br.api_controle_estoque.DTO.Response.CategoryResponseDTO;
+import com.br.api_controle_estoque.DTO.Response.ProductResponseDto;
 import com.br.api_controle_estoque.model.Category;
 import com.br.api_controle_estoque.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +38,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
-
+    @Operation(summary = "Buscar todas as categorias", description = "Retorna uma lista com todas as categorias cadastradas.")
     @GetMapping("/list")
     public List<CategoryResponseDTO> listCategory(){
         return categoryService.listCategory().stream() //Percorre elementos na lista
@@ -47,6 +46,9 @@ public class CategoryController {
                 .collect(Collectors.toList());        // Coleta os DTOs em uma lista
     }
 
+    @Operation(summary = "Buscar categoria por ID", description = "Retorna uma categoria específica baseado no ID fornecido.")
+    @ApiResponse(responseCode = "200", description = "Categoria encontrada")
+    @ApiResponse(responseCode = "404", description = "Categoria não encontrada")
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> searchCategory(@PathVariable Long id){
         Category findCategory = categoryService.searchCategory(id);
@@ -56,6 +58,22 @@ public class CategoryController {
         return ResponseEntity.ok(CategoryResponseDTO.fromEntity(findCategory));
     }
 
+    @Operation(summary = "Buscar categoria pelo nome", description = "Retorna uma lista ou uma única categoria específico baseado no nome fornecido.")
+    @ApiResponse(responseCode = "200", description = "Categoria encontrada")
+    @ApiResponse(responseCode = "404", description = "Categoria não encontrada")
+    @GetMapping("/searchName")
+    public ResponseEntity<List<CategoryResponseDTO>> searchProductByName(@RequestParam(required = false) String name) {
+        try {
+            List<CategoryResponseDTO> categories = categoryService.searchCategoryByName(name);
+            return ResponseEntity.ok(categories);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @Operation(summary = "Atualizar categoria existente", description = "Atualiza as informações de uma categoria existente.")
+    @ApiResponse(responseCode = "200", description = "Categoria atualizada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Categoria não encontrada")
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> updateCategory(@PathVariable Long id,
                                                    @Valid @RequestBody CategoryRequestDto categoryDto){
@@ -71,6 +89,9 @@ public class CategoryController {
         return ResponseEntity.notFound().build();
     }
 
+    @Operation(summary = "Deletar categoria", description = "Deleta uma categoria do sistema com base no ID fornecido.")
+    @ApiResponse(responseCode = "204", description = "Categoria deletada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Categoria não encontrada")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
         Category existingCategory = categoryService.searchCategory(id);

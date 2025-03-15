@@ -1,4 +1,4 @@
-package com.br.api_controle_estoque.DTO;
+package com.br.api_controle_estoque.DTO.Response;
 
 import com.br.api_controle_estoque.model.Category;
 import com.br.api_controle_estoque.model.Product;

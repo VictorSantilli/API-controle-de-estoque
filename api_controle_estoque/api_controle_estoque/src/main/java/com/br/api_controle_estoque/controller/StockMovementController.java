@@ -1,8 +1,7 @@
 package com.br.api_controle_estoque.controller;
 
-import com.br.api_controle_estoque.DTO.StockMovementRequestDto;
-import com.br.api_controle_estoque.DTO.StockMovementRequestUpdateDto;
-import com.br.api_controle_estoque.DTO.StockMovementResponseDto;
+import com.br.api_controle_estoque.DTO.Request.StockMovementRequestDto;
+import com.br.api_controle_estoque.DTO.Response.StockMovementResponseDto;
 import com.br.api_controle_estoque.model.StockMovement;
 import com.br.api_controle_estoque.service.StockMovementService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,15 +1,13 @@
-package com.br.api_controle_estoque.DTO;
+package com.br.api_controle_estoque.DTO.Response;
 
 import com.br.api_controle_estoque.model.Product;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class ProductResponseDto {
 
     private Long id;
     private String name;
     private String description;
+    private String location;
     private Integer quantity_min;
     private Integer quantity_stock;
     private String unit_of_measure;
@@ -18,11 +16,13 @@ public class ProductResponseDto {
 
 
     public ProductResponseDto(Long id, String name, String description,
-                              Integer quantity_min, Integer quantity_stock,
-                              String unit_of_measure, String nameCategory) {
+                              String location, Integer quantity_min,
+                              Integer quantity_stock, String unit_of_measure,
+                              String nameCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.location = location;
         this.quantity_min = quantity_min;
         this.quantity_stock = quantity_stock;
         this.unit_of_measure = unit_of_measure;
@@ -38,6 +38,7 @@ public class ProductResponseDto {
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
+                product.getLocation(),
                 product.getQuantity_min(),
                 product.getQuantity_stock(),
                 product.getUnit_of_measure(),
@@ -102,4 +103,11 @@ public class ProductResponseDto {
         this.nameCategory = nameCategory;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

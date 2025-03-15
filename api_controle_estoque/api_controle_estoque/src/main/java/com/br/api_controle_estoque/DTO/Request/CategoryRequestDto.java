@@ -1,4 +1,4 @@
-package com.br.api_controle_estoque.DTO;
+package com.br.api_controle_estoque.DTO.Request;
 
 import jakarta.validation.constraints.NotNull;
 

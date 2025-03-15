@@ -1,14 +1,13 @@
 package com.br.api_controle_estoque.controller;
 
-import com.br.api_controle_estoque.DTO.LoginRequestDto;
-import com.br.api_controle_estoque.DTO.LoginResponseDto;
-import com.br.api_controle_estoque.DTO.RegisterRequestDto;
+import com.br.api_controle_estoque.DTO.Request.LoginRequestDto;
+import com.br.api_controle_estoque.DTO.Response.LoginResponseDto;
+import com.br.api_controle_estoque.DTO.Request.RegisterRequestDto;
 import com.br.api_controle_estoque.infra.security.TokenService;
 import com.br.api_controle_estoque.model.User;
 import com.br.api_controle_estoque.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;

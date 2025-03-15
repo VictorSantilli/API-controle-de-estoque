@@ -1,6 +1,7 @@
 package com.br.api_controle_estoque.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,6 +20,7 @@ public class User {
     private String name;
     @NotNull(message = "The email of the user is required.")
     @Column(unique = true, nullable = false)
+    @Email
     private String email;
     @NotNull(message = "The password of the user is required.")
     @Column(name = "senha")

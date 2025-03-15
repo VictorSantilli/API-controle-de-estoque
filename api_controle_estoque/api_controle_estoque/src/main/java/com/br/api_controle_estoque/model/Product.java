@@ -20,6 +20,10 @@ public class Product {
     @Column(name = "descricao")
     private String description;
 
+    @NotNull
+    @Column(name = "localizacao")
+    private String location;
+
     @Column(name = "quantidade_estoque")
     private Integer quantity_stock = 0;
 
@@ -100,6 +104,14 @@ public class Product {
 
     public void setStatus(@NotNull Status status) {
         this.status = status;
+    }
+
+    public @NotNull String getLocation() {
+        return location;
+    }
+
+    public void setLocation(@NotNull String location) {
+        this.location = location;
     }
 
     public Category getCategory() {

@@ -1,10 +1,6 @@
-package com.br.api_controle_estoque.DTO;
+package com.br.api_controle_estoque.DTO.Response;
 
-import com.br.api_controle_estoque.model.Product;
 import com.br.api_controle_estoque.model.User;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserResponseDto {
     private Long id;

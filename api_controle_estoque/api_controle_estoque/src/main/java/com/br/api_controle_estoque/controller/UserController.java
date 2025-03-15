@@ -1,6 +1,7 @@
 package com.br.api_controle_estoque.controller;
 
-import com.br.api_controle_estoque.DTO.UserResponseDto;
+import com.br.api_controle_estoque.DTO.Response.ProductResponseDto;
+import com.br.api_controle_estoque.DTO.Response.UserResponseDto;
 import com.br.api_controle_estoque.model.User;
 import com.br.api_controle_estoque.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +39,19 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(UserResponseDto.fromEntity(findUser));
+    }
+
+    @Operation(summary = "Buscar usuário pelo nome", description = "Retorna uma lista ou um único usuário específico baseado no nome fornecido.")
+    @ApiResponse(responseCode = "200", description = "Usuário encontrado")
+    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    @GetMapping("/searchName")
+    public ResponseEntity<List<UserResponseDto>> searchUserByName(@RequestParam(required = false) String name) {
+        try {
+            List<UserResponseDto> users = userService.searchUsersByName(name);
+            return ResponseEntity.ok(users);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @Operation(summary = "Atualizar usuário existente", description = "Atualiza as informações de um usuário existente.")
