@@ -29,11 +29,12 @@ public class Supplier {
     @Pattern(regexp = "\\d{14}", message = "The CNPJ must contain 14 numeric digits")
     private String cnpj;
 
-    @OneToMany(mappedBy = "supplier")
-    private List<StockMovement> movements;
+
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Invoice> invoices;
 
     @NotNull
-    @OneToOne(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "supplier", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Adress adress;
 
 
@@ -85,11 +86,11 @@ public class Supplier {
         this.adress = adress;
     }
 
-    public List<StockMovement> getMovements() {
-        return movements;
+    public List<Invoice> getInvoices() {
+        return invoices;
     }
 
-    public void setMovements(List<StockMovement> movements) {
-        this.movements = movements;
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }

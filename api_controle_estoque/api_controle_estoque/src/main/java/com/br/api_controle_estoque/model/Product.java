@@ -46,8 +46,13 @@ public class Product {
     @NotNull
     private Category category;
 
-    @OneToMany(mappedBy = "product")
-    private List<StockMovement> stockMovements;
+    @OneToMany(mappedBy = "product",  cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<StockOutput> stockOutputs;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InvoiceItem> invoiceItems;
+
+
 
     public Long getId() {
         return id;
@@ -122,12 +127,19 @@ public class Product {
         this.category = category;
     }
 
-    public List<StockMovement> getStockMovements() {
-        return stockMovements;
+    public List<StockOutput> getStockOutputs() {
+        return stockOutputs;
     }
 
-    public void setStockMovements(List<StockMovement> stockMovements) {
-        this.stockMovements = stockMovements;
+    public void setStockOutputs(List<StockOutput> stockOutputs) {
+        this.stockOutputs = stockOutputs;
     }
 
+    public List<InvoiceItem> getInvoiceItems() {
+        return invoiceItems;
+    }
+
+    public void setInvoiceItems(List<InvoiceItem> invoiceItems) {
+        this.invoiceItems = invoiceItems;
+    }
 }
