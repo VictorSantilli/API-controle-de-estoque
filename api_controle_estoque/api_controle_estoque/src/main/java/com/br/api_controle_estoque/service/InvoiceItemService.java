@@ -4,7 +4,6 @@ import com.br.api_controle_estoque.DTO.Request.InvoiceItemRequest;
 import com.br.api_controle_estoque.DTO.Response.InvoiceItemResponseDto;
 import com.br.api_controle_estoque.model.InvoiceItem;
 import com.br.api_controle_estoque.model.Product;
-import com.br.api_controle_estoque.model.StockOutput;
 import com.br.api_controle_estoque.repository.InvoiceItemRepository;
 import com.br.api_controle_estoque.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;

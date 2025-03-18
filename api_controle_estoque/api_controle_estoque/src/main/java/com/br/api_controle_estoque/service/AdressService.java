@@ -3,12 +3,10 @@ package com.br.api_controle_estoque.service;
 import com.br.api_controle_estoque.DTO.Request.AdressRequestDto;
 import com.br.api_controle_estoque.DTO.Response.AdressResponseDto;
 import com.br.api_controle_estoque.model.Adress;
-import com.br.api_controle_estoque.model.Supplier;
 import com.br.api_controle_estoque.repository.AdressRepository;
 import com.br.api_controle_estoque.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -56,11 +54,6 @@ public class AdressService {
         adress.setCity(dto.city());
         adress.setState(dto.state());
 
-        if (dto.supplierId() != null) {
-            Supplier supplier = supplierRepository.findById(dto.supplierId())
-                    .orElseThrow(() -> new RuntimeException("Supplier not found"));
-            adress.setSupplier(supplier);
-        }
 
         adress = adressRepository.save(adress);
         return new AdressResponseDto(adress);

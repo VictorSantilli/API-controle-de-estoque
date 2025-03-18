@@ -29,8 +29,6 @@ public record AdressRequestDto(
 
         @Column(name = "estado")
         @NotNull
-        String state,
-
-        Long supplierId
+        String state
 ) {
 }

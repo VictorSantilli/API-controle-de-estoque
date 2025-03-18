@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,8 +44,7 @@ public class InvoiceService {
         Invoice invoice = new Invoice();
         invoice.setInvoiceNumber(request.invoiceNumber());
         invoice.setSupplier(supplier);
-        invoice.setIssueDate(request.issueDate());
-        invoice.setTotalAmount(request.totalAmount());
+        invoice.setIssueDate(LocalDateTime.now());
 
         // Buscar os itens da fatura no banco usando os IDs fornecidos na requisição
         List<InvoiceItem> invoiceItems = request.invoiceItemIds().stream()
@@ -53,6 +53,9 @@ public class InvoiceService {
                 .collect(Collectors.toList());
 
         invoice.setItems(invoiceItems);
+
+        // Agora que os itens já estão na fatura, podemos calcular o valor total corretamente
+        invoice.updateTotalAmount();
 
         return invoiceRepository.save(invoice);
     }
@@ -104,8 +107,8 @@ public class InvoiceService {
                 .orElseThrow(() -> new EntityNotFoundException("Invoice not found"));
 
         invoice.setInvoiceNumber(dto.invoiceNumber());
-        invoice.setIssueDate(dto.issueDate());
-        invoice.setTotalAmount(dto.totalAmount());
+        invoice.setIssueDate(LocalDateTime.now());
+        invoice.setTotalAmount(invoice.calculateTotalAmount());
 
         return invoiceRepository.save(invoice);
     }
