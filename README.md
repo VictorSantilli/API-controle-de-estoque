@@ -61,7 +61,10 @@ Antes de rodar o projeto, certifique-se de ter instalado:
 O sistema utiliza **Spring Security** para autenticação e controle de acesso. Para acessar a API, é necessário realizar login e obter um token JWT.
 
 ## 📊 Modelo do Banco de Dados
-A estrutura do banco de dados inclui tabelas para **usuários, produtos, fornecedores, endereço do fornecedor, notas fiscais, itens de nota fiscal e movimentações de saída de estoque**. O diagrama do banco pode ser encontrado [aqui](./diagrama_bd.JPEG).
+A estrutura do banco de dados inclui tabelas para **usuários, produtos, fornecedores, endereço do fornecedor, notas fiscais, itens de nota fiscal e movimentações de saída de estoque**. 
+<p align="center">
+  <img src="./diagrama_bd.jpeg" alt="Diagrama do Banco de Dados" width="600px">
+</p>
 
 ## ✉️ Contato
 Para dúvidas ou sugestões, entre em contato pelo e-mail: **thiagoo.barros08@gmail.com**.
