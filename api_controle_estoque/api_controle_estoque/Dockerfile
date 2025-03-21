@@ -5,7 +5,7 @@ COPY pom.xml /app
 
 WORKDIR /app
 
-RUN mvn clean install
+RUN mvn -B -DskipTests clean install
 
 FROM amazoncorretto:17-alpine-jdk
 
