@@ -3,7 +3,9 @@ FROM maven:3.9.7-amazoncorretto-17 AS build
 
 WORKDIR /app
 
-# Copia apenas os arquivos essenciais primeiro para evitar erros
+# Copia todos os arquivos necessários, incluindo Maven Wrapper
+COPY .mvn/ .mvn/
+COPY mvnw mvnw
 COPY pom.xml .
 COPY src ./src
 
