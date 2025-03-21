@@ -19,16 +19,16 @@ public class CorsConfig implements WebMvcConfigurer {
             .allowedOrigins("*")  // Permite requisições de qualquer domínio
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
             .allowedHeaders("*") // Permite todos os headers
-            .allowCredentials(true); // Permite envio de credenciais (cookies, autenticação)
+            .allowCredentials(false); // Permite envio de credenciais (cookies, autenticação)
     }
 
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(List.of("*"));  // Permite todos os domínios
-        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));  // Métodos HTTP permitidos
-        corsConfig.setAllowedHeaders(List.of("*"));  // Permite todos os cabeçalhos
-        corsConfig.setAllowCredentials(true); // Permite credenciais
+        corsConfig.setAllowCredentials(true);
+        corsConfig.addAllowedOrigin("*");
+        corsConfig.addAllowedHeader("*");
+        corsConfig.addAllowedMethod("*"); // Permite credenciais
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
